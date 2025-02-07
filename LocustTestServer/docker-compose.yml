@@ -1,0 +1,33 @@
+version: '3.9'
+
+networks:
+  frontend-network:  # Для клиента (доступен только Locust UI)
+    driver: bridge
+  backend-network:   # Для связи Locust ↔ ASP.NET
+    driver: bridge
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - backend-network  # Сервер доступен только Locust
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+    expose:
+      - "5000"  # Открываем порт ТОЛЬКО внутри Docker-сети (без внешнего доступа)
+
+  locust:
+    build:
+      context: ./locust
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8089"  # Locust UI доступен клиенту
+    networks:
+      - frontend-network  # Клиент может подключиться к Locust UI
+      - backend-network   # Locust может тестировать ASP.NET сервер
+    depends_on:
+      - web
+    environment:
+      - LOCUST_HOST=http://web:5000  # Locust тестирует ASP.NET сервер через backend-network

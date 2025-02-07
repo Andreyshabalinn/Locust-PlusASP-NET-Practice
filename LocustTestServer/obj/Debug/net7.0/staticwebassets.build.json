@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "hBhW6OMhXeZT5xOCo8R0ZyuAwf+uLKdmJL85tgeK3OA=",
+  "Source": "LocustTestServer",
+  "BasePath": "_content/LocustTestServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
